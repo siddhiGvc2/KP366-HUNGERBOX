@@ -369,10 +369,10 @@ void gpio_read_n_act(void)
                         sprintf(payload, "*RP:%d:%d#",LastInputPin,TotalPulses); 
                          
                         send(sock, payload, strlen(payload), 0);
-                        if(MQTTRequired)
-                        {
-                            mqtt_publish_msg(payload);
-                        }
+                        // if(MQTTRequired)
+                        // {
+                        //     mqtt_publish_msg(payload);
+                        // }
                          DisplayCoinInserted();
                           vTaskDelay(5000 / portTICK_PERIOD_MS);
                           dispayQR();

@@ -1,3 +1,10 @@
+## 190925
+-- hARd coding removed polarity = 0 removed 
+-- set PULSEOO as per polarity
+-- set initial level as SignalPolarity in hardware.c
+-- set polarity when CA command is sent
+-- SDA is also used as PULSEO but in reverse polarity
+
 ## 290825
 remove MQTT for RP till we find solution
 add *SENDID# command

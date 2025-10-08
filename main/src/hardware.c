@@ -164,33 +164,33 @@ void console_uart_init(void){
 
 void Out4094Byte (unsigned char value)
 {
-    uint8_t i,j;
-    uint8_t OutputMap[9] = {99,6,0,4,5,2,3,1,99};
-    uint8_t ReverseBitMap[8] = {0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01};
+    // uint8_t i,j;
+    // uint8_t OutputMap[9] = {99,6,0,4,5,2,3,1,99};
+    // uint8_t ReverseBitMap[8] = {0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01};
 
 
-    j =0;
-    for (i = 1 ; i< 8 ; i++)
-    {
-        if (value & (0x01<<i))
-            j = 0x01 << (OutputMap[i]);
-    }
+    // j =0;
+    // for (i = 1 ; i< 8 ; i++)
+    // {
+    //     if (value & (0x01<<i))
+    //         j = 0x01 << (OutputMap[i]);
+    // }
 
-    for (i = 0 ; i < 8 ; i++)
-    {
-        if (j && (ReverseBitMap[i]))  
-            gpio_set_level(DAT, 1);
-        else    
-            gpio_set_level(DAT, 0);
-        ets_delay_us(10);
-        gpio_set_level(CLK, 1);
-        ets_delay_us(10);
-        gpio_set_level(CLK, 0);
-    }
-    ets_delay_us(10);
-    gpio_set_level(STRB, 1);
-    ets_delay_us(10);
-    gpio_set_level(STRB, 0);
+    // for (i = 0 ; i < 8 ; i++)
+    // {
+    //     if (j && (ReverseBitMap[i]))  
+    //         gpio_set_level(DAT, 1);
+    //     else    
+    //         gpio_set_level(DAT, 0);
+    //     ets_delay_us(10);
+    //     gpio_set_level(CLK, 1);
+    //     ets_delay_us(10);
+    //     gpio_set_level(CLK, 0);
+    // }
+    // ets_delay_us(10);
+    // gpio_set_level(STRB, 1);
+    // ets_delay_us(10);
+    // gpio_set_level(STRB, 0);
 }
 
 void gpio_read_n_act(void)
@@ -475,40 +475,40 @@ void ICH_init()
 
 void Out4094 (unsigned char value)
 {
-    uint8_t i,j;
-    uint8_t OutputMap[9] = {99,6,0,4,5,2,3,1,99};
-    j = OutputMap[value];
-//    ESP_LOGI("OUT4094","pin %d",j);
-    for (i = 0 ; i < 8 ; i++)
-    {
-        if (SignalPolarity == 0)
-        {
-            if (j == 7-i)
-               gpio_set_level(DAT, 1);
-            else    
-                gpio_set_level(DAT, 0);
-        }
-        else
-        {
-            if (j == 7-i)
-               gpio_set_level(DAT, 0);
-            else    
-                gpio_set_level(DAT, 1);
-        }
+//     uint8_t i,j;
+//     uint8_t OutputMap[9] = {99,6,0,4,5,2,3,1,99};
+//     j = OutputMap[value];
+// //    ESP_LOGI("OUT4094","pin %d",j);
+//     for (i = 0 ; i < 8 ; i++)
+//     {
+//         if (SignalPolarity == 0)
+//         {
+//             if (j == 7-i)
+//                gpio_set_level(DAT, 1);
+//             else    
+//                 gpio_set_level(DAT, 0);
+//         }
+//         else
+//         {
+//             if (j == 7-i)
+//                gpio_set_level(DAT, 0);
+//             else    
+//                 gpio_set_level(DAT, 1);
+//         }
 
-        ets_delay_us(10);
-        gpio_set_level(CLK, 1);
-        ets_delay_us(10);
-        gpio_set_level(CLK, 0);
-    }
-    ets_delay_us(10);
-    gpio_set_level(STRB, 1);
-    ets_delay_us(10);
-    gpio_set_level(STRB, 0);
-    // if (value<7)
-    //     ESP_LOGI("OUT4094","Start Pulse %d is %lu",edges,xTaskGetTickCount());
-    // else
-    //     ESP_LOGI("OUT4094","End Pulses %d is %lu",edges,xTaskGetTickCount());
+//         ets_delay_us(10);
+//         gpio_set_level(CLK, 1);
+//         ets_delay_us(10);
+//         gpio_set_level(CLK, 0);
+//     }
+//     ets_delay_us(10);
+//     gpio_set_level(STRB, 1);
+//     ets_delay_us(10);
+//     gpio_set_level(STRB, 0);
+//     // if (value<7)
+//     //     ESP_LOGI("OUT4094","Start Pulse %d is %lu",edges,xTaskGetTickCount());
+//     // else
+//     //     ESP_LOGI("OUT4094","End Pulses %d is %lu",edges,xTaskGetTickCount());
 
 }
 
@@ -545,12 +545,29 @@ void GeneratePulsesInBackGround (void)
         {
             if (edges%2 == 0)
             {
-                gpio_set_level(PULSEO,1);
+                if (SignalPolarity == 0)
+                {
+                    gpio_set_level(PULSEO,1);
+                    gpio_set_level(SDA,0);
+                }else
+                {    gpio_set_level(PULSEO,0);
+                    gpio_set_level(SDA,1);
+                }        
                 ESP_LOGI(TAG,"Pulse Low");
             }
             else
             {    
-                gpio_set_level(PULSEO,0);
+                if (SignalPolarity == 0)
+                {
+                    gpio_set_level(PULSEO,0);
+                    gpio_set_level(SDA,1);
+
+                }else
+                {
+                    gpio_set_level(PULSEO,1);
+                    gpio_set_level(SDA,0);
+
+                }
                 ESP_LOGI(TAG,"Pulse high");
             }
             if (VendingMode == VendingArcade)
@@ -603,10 +620,15 @@ void s2p_init(){
     //configure GPIO with the given settings
     gpio_config(&io_conf);
 
-    gpio_set_level(PULSEO, 0);
+    if (SignalPolarity == 0)
+    {    gpio_set_level(PULSEO,0);
+         gpio_set_level(SDA,1);
+   }else
+    {    gpio_set_level(PULSEO,1);
+         gpio_set_level(SDA,0);
+   }
     gpio_set_level(STRB, 0);
     gpio_set_level(CLK, 0);
-    gpio_set_level(DAT, 0);
     if (INHOutputValue != 0)
     {
         INHOutputValue = 1;

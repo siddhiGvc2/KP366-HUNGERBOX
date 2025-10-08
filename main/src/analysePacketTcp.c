@@ -426,9 +426,16 @@ void tcpip_client_task(){
                                         // possible values are 0 and 1        
                                         if (polarity>0)
                                             polarity = 1;   
-                                        polarity = 0;     
+                                        //polarity = 0; // hardcoding polarity removed on 190925    
                                         pulseWitdh=numValue;
                                         SignalPolarity=polarity;
+                                      if (SignalPolarity == 0)
+                                        {    gpio_set_level(PULSEO,0);
+                                            gpio_set_level(SDA,1);
+                                        }else
+                                            {    gpio_set_level(PULSEO,1);
+                                                gpio_set_level(SDA,0);
+                                        }
 
                                         tx_event_pending = 1;
                                         Out4094(0x00);

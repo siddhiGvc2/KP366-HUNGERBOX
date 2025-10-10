@@ -47,8 +47,14 @@ static const char *TAG = "LVGL";
 
 void display_images(const lv_img_dsc_t *ig) {
     if (lv_obj_is_valid(img)) {
-        lv_obj_del_async(img);  // Asynchronously delete the previous image object
+        lv_obj_del(img);  // Asynchronously delete the previous image object
         img = NULL;             // ✅ Good: prevent use-after-free
+    }
+
+    // 3️⃣ Delete previous label if it exists
+    if (lv_obj_is_valid(label)) {
+        lv_obj_del(label);
+        label = NULL;
     }
     
     if (example_lvgl_lock(-1)) {
@@ -73,7 +79,7 @@ void display_images(const lv_img_dsc_t *ig) {
     if(Image2BDisplayed==5)
     {
     char payload[200];
-    lv_obj_t *label = lv_label_create(lv_scr_act());
+    label = lv_label_create(lv_scr_act());
     sprintf(payload,"ItemCode-%s\nPrice-%s",itemCode,rawPrice);
     lv_label_set_text(label, payload);
   
@@ -88,7 +94,7 @@ void display_images(const lv_img_dsc_t *ig) {
     else if(Image2BDisplayed==9)
     {
          char payload[200];
-        lv_obj_t *label = lv_label_create(lv_scr_act());
+        label = lv_label_create(lv_scr_act());
         sprintf(payload,"%s",TextStatus);
         lv_label_set_text(label, payload);
     
@@ -105,7 +111,7 @@ void display_images(const lv_img_dsc_t *ig) {
     else  if(Image2BDisplayed==1)
     {
     // char label[200];
-    lv_obj_t *label = lv_label_create(lv_scr_act());
+    label = lv_label_create(lv_scr_act());
     // sprintf(label,"")
     lv_label_set_text(label, "Mobivend 140525");
    
@@ -120,6 +126,59 @@ void display_images(const lv_img_dsc_t *ig) {
 
   
 }
+
+
+
+// void display_images(const lv_img_dsc_t *ig)
+// {
+//     // 1️⃣ Delete previous image safely
+//     if (lv_obj_is_valid(img)) {
+//         lv_obj_del_async(img);
+//         img = NULL;
+//     }
+
+//     // 2️⃣ Create image
+//     img = lv_img_create(lv_scr_act());
+//     if (!lv_obj_is_valid(img)) {
+//         printf("Failed to create image!\n");
+//         return;
+//     }
+//     lv_img_set_src(img, ig);
+//     lv_obj_align(img, LV_ALIGN_TOP_MID, 0, 0);
+
+//     // 3️⃣ Delete previous label if it exists
+//     if (lv_obj_is_valid(label)) {
+//         lv_obj_del_async(label);
+//         label = NULL;
+//     }
+
+//     // 4️⃣ Create new label based on Image2BDisplayed
+//     label = lv_label_create(lv_scr_act());
+//     static lv_style_t style;
+//     lv_style_init(&style);
+//     lv_style_set_text_color(&style, lv_color_black());
+
+//     if (Image2BDisplayed == 5) {
+//         char payload[200];
+//         sprintf(payload, "ItemCode-%s\nPrice-%s", itemCode, rawPrice);
+//         lv_label_set_text(label, payload);
+//         lv_style_set_text_font(&style, &lv_font_montserrat_22);
+//         lv_obj_add_style(label, &style, 0);
+//         lv_obj_align_to(label, img, LV_ALIGN_BOTTOM_MID, 0, -100);
+//     }
+//     else if (Image2BDisplayed == 9) {
+//         lv_label_set_text(label, TextStatus);
+//         lv_style_set_text_font(&style, &lv_font_montserrat_28);
+//         lv_obj_add_style(label, &style, 0);
+//         lv_obj_align_to(label, img, LV_ALIGN_CENTER, 0, 0);
+//     }
+//     else if (Image2BDisplayed == 1) {
+//         lv_label_set_text(label, "Mobivend 140525");
+//         lv_style_set_text_font(&style, &lv_font_montserrat_22);
+//         lv_obj_add_style(label, &style, 0);
+//         lv_obj_align_to(label, img, LV_ALIGN_BOTTOM_MID, 0, -10);
+//     }
+// }
 
 
 static lv_obj_t * img6 = NULL;

@@ -1,5 +1,8 @@
+
+
 ## 101025
 -- ShowQr Function changes made for resolev errors
+-- displayImage function made changes for crash error of displayingImag
 
 ## 091025
 -- showQrCode function added in main file for display QrCOde

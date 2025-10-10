@@ -202,6 +202,7 @@ extern char val1[20], val2[20], val4[20], rawPrice[20], itemCode[10];
 
 #include "lvgl.h"
 extern lv_obj_t * img; // Declare globally or in a higher scope
+extern lv_obj_t *label;
 extern lv_obj_t *qr;
 extern lv_obj_t *qr_label_bg;
 extern lv_obj_t *qr_label;

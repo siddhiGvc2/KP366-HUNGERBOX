@@ -196,6 +196,9 @@ int IsMobivendApi=0;
 char val1[20], val2[20], val4[20], rawPrice[20], itemCode[10];
 #include "lvgl.h"
 lv_obj_t * img = NULL; // Declare globally or in a higher scope
+lv_obj_t *qr = NULL;
+ lv_obj_t *qr_label_bg = NULL;
+ lv_obj_t *qr_label = NULL;
 
 char UartDebugInfoRequired = 0;
 char UartPacketReceived = 0;

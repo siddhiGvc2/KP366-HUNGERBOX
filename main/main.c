@@ -42,6 +42,8 @@
 
 
 
+
+
 // void resolve_hostname(const char *);
 // uint32_t millis(void);
 
@@ -63,6 +65,59 @@ static void memory_check(void *para) {
     }
 }
 
+   
+ 
+
+
+void show_qr_code(void *param) {
+    if (DisplayMode != ModeQR) {
+       
+
+        // LV_IMG_DECLARE(QRcode);
+        ESP_LOGI(TAG, "Displaying QrCode Image");
+        // display_images(&QRcode);
+        if (lv_obj_is_valid(img)) {
+        lv_obj_del_async(img);  // Asynchronously delete the previous image object
+        img = NULL;             // ✅ Good: prevent use-after-free
+        }
+       
+        if (qr == NULL) {
+
+        qr = lv_qrcode_create(lv_scr_act(), QR_CODE_SIZE, lv_color_hex3(0x000), lv_color_hex3(0xFFF));
+        }
+        lv_qrcode_update(qr, QrString, strlen(QrString));
+        lv_obj_align(qr, LV_ALIGN_CENTER, 0, -23);
+
+        if(qr_label_bg==NULL)
+        {
+        qr_label_bg = lv_obj_create(lv_scr_act());
+        }
+        lv_obj_set_size(qr_label_bg, lv_disp_get_hor_res(NULL), 40);
+        lv_obj_align_to(qr_label_bg, qr, LV_ALIGN_OUT_TOP_MID, 0, -5);
+        lv_obj_set_style_bg_color(qr_label_bg, lv_color_black(), 0);
+        lv_obj_set_style_bg_opa(qr_label_bg, LV_OPA_COVER, 0);
+        lv_obj_clear_flag(qr_label_bg, LV_OBJ_FLAG_SCROLLABLE);
+
+        if(qr_label==NULL)
+        {
+        qr_label = lv_label_create(qr_label_bg);
+        }
+        lv_label_set_text_fmt(qr_label, "S.No : %s", SerialNumber);
+        lv_obj_align_to(qr_label, qr, LV_ALIGN_OUT_TOP_MID, 0, -20);
+
+        static lv_style_t style;
+        lv_style_init(&style);
+        lv_style_set_text_color(&style, lv_color_white());
+        lv_style_set_bg_color(&style, lv_color_black());
+        lv_style_set_bg_opa(&style, LV_OPA_COVER);
+        lv_style_set_pad_all(&style, 4);
+        lv_obj_add_style(qr_label, &style, 0);
+
+        DisplayMode = ModeQR;
+    }
+}
+
+
 void display_image_task(void)
 {
     while(1) {
@@ -79,6 +134,7 @@ void display_image_task(void)
             {
                 // LV_IMG_DECLARE();
                 LV_IMG_DECLARE(BootingUp);
+                ESP_LOGI(TAG,"Displaying BootingUp Image");
                 display_images(&BootingUp);
                 DisplayMode = ModeBootingUp;
             }
@@ -89,6 +145,7 @@ void display_image_task(void)
             if (DisplayMode != ModeNoWifi)
             {
                 LV_IMG_DECLARE(NoConnectivity);
+                 ESP_LOGI(TAG,"Displaying NoConnectivity Image");
                 display_images(&NoConnectivity);
                 DisplayMode = ModeNoWifi;
             }
@@ -99,6 +156,7 @@ void display_image_task(void)
             if(DisplayMode != ModeCashlessDevice)
             {
                 LV_IMG_DECLARE(WaitingCashLessDevice);
+                 ESP_LOGI(TAG,"Displaying WaitingCashLessDevice Image");
                 display_images(&WaitingCashLessDevice);
                 DisplayMode=ModeCashlessDevice;
             }
@@ -108,6 +166,7 @@ void display_image_task(void)
             if (DisplayMode != ModeItemVend)
             {
                 LV_IMG_DECLARE(ItemVend);
+                 ESP_LOGI(TAG,"Displaying Itemvend Image");
                 display_images(&ItemVend);
                 DisplayMode = ModeItemVend;
             }
@@ -118,6 +177,7 @@ void display_image_task(void)
              if (DisplayMode != ModeSelectItem)
             {
                 LV_IMG_DECLARE(SelectItem);
+                 ESP_LOGI(TAG,"Displaying SelecteItem Image");
                 display_images(&SelectItem);
                 DisplayMode = ModeSelectItem;
             }
@@ -127,6 +187,7 @@ void display_image_task(void)
               if (DisplayMode != ModeCashReceived)
             {
                 LV_IMG_DECLARE(CashReceived);
+                 ESP_LOGI(TAG,"Displaying CashReceived Image");
                 display_images(&CashReceived);
                 DisplayMode = ModeCashReceived;
             }
@@ -136,6 +197,7 @@ void display_image_task(void)
               if (DisplayMode != ModeCoinInserted)
             {
                 LV_IMG_DECLARE(CoinInserted);
+                 ESP_LOGI(TAG,"Displaying CoinInserted Image");
                 display_images(&CoinInserted);
                 DisplayMode = ModeCoinInserted;
             }
@@ -143,45 +205,48 @@ void display_image_task(void)
         // this function added on 140525 by Vinay with guidance of Siddhi
         if (Image2BDisplayed == ImageQRCode)
         {
-            if (DisplayMode != ModeQR)
-            {
-                LV_IMG_DECLARE(QRcode);
-                display_images(&QRcode);
+            lv_async_call(show_qr_code, NULL);
+            // if (DisplayMode != ModeQR)
+            // {
+            //     LV_IMG_DECLARE(QRcode);
+            //      ESP_LOGI(TAG,"Displaying QrCode Image");
+            //     display_images(&QRcode);
                 
-                lv_obj_t *qr = lv_qrcode_create(img, QR_CODE_SIZE, lv_color_hex3(0x000), lv_color_hex3(0xFFF));
-                lv_qrcode_update(qr, QrString, strlen(QrString));
-                lv_obj_align(qr, LV_ALIGN_CENTER, 0, 10);
+            //     lv_obj_t *qr = lv_qrcode_create(img, QR_CODE_SIZE, lv_color_hex3(0x000), lv_color_hex3(0xFFF));
+            //     lv_qrcode_update(qr, QrString, strlen(QrString));
+            //     lv_obj_align(qr, LV_ALIGN_CENTER, 0, 10);
 
                 // 2. Create a full-width black background container for the label
-lv_obj_t *label_bg = lv_obj_create(lv_scr_act());
-lv_obj_set_size(label_bg, lv_disp_get_hor_res(NULL), 40); // Full width, fixed height
-lv_obj_align_to(label_bg, qr, LV_ALIGN_OUT_TOP_MID, 0, -10); // Above the QR code
+// lv_obj_t *label_bg = lv_obj_create(lv_scr_act());
+// lv_obj_set_size(label_bg, lv_disp_get_hor_res(NULL), 40); // Full width, fixed height
+// lv_obj_align_to(label_bg, qr, LV_ALIGN_OUT_TOP_MID, 0, -10); // Above the QR code
 
-lv_obj_set_style_bg_color(label_bg, lv_color_black(), 0);
-lv_obj_set_style_bg_opa(label_bg, LV_OPA_COVER, 0);
-lv_obj_set_style_border_width(label_bg, 0, 0);
-lv_obj_clear_flag(label_bg, LV_OBJ_FLAG_SCROLLABLE); // optional
+// lv_obj_set_style_bg_color(label_bg, lv_color_black(), 0);
+// lv_obj_set_style_bg_opa(label_bg, LV_OPA_COVER, 0);
+// lv_obj_set_style_border_width(label_bg, 0, 0);
+// lv_obj_clear_flag(label_bg, LV_OBJ_FLAG_SCROLLABLE); // optional
 
-                lv_obj_t *label = lv_label_create(label_bg);
-                lv_label_set_text_fmt(label, "Serial Number : %s",SerialNumber);
-                lv_obj_align_to(label, qr, LV_ALIGN_OUT_TOP_MID, 0, -15);  // below QR code
+//                 lv_obj_t *label = lv_label_create(label_bg);
+//                 lv_label_set_text_fmt(label, "Serial Number : %s",SerialNumber);
+//                 lv_obj_align_to(label, qr, LV_ALIGN_OUT_TOP_MID, 0, -15);  // below QR code
 
                 // Optional: Set label style (white text on black background)
-                static lv_style_t style;
-                lv_style_init(&style);
-                lv_style_set_text_color(&style, lv_color_white());
-                lv_style_set_bg_color(&style, lv_color_black());
-                lv_style_set_bg_opa(&style, LV_OPA_COVER);
-                lv_style_set_pad_all(&style, 4);
-                lv_obj_add_style(label, &style, 0);
-                DisplayMode = ModeQR;
-            }    
+            //     static lv_style_t style;
+            //     lv_style_init(&style);
+            //     lv_style_set_text_color(&style, lv_color_white());
+            //     lv_style_set_bg_color(&style, lv_color_black());
+            //     lv_style_set_bg_opa(&style, LV_OPA_COVER);
+            //     lv_style_set_pad_all(&style, 4);
+            //     lv_obj_add_style(label, &style, 0);
+            //     DisplayMode = ModeQR;
+            // }    
         }
           if(Image2BDisplayed==ImageNoStock)
         {
               if (DisplayMode != ModeNoStock)
             {
                 LV_IMG_DECLARE(NoStock);
+                 ESP_LOGI(TAG,"Displaying NoStock Image");
                 display_images(&NoStock);
                 DisplayMode = ModeNoStock;
             }
@@ -191,6 +256,7 @@ lv_obj_clear_flag(label_bg, LV_OBJ_FLAG_SCROLLABLE); // optional
               if (DisplayMode != ModeStatusText)
             {
                  LV_IMG_DECLARE(BlankImage);
+                  ESP_LOGI(TAG,"Displaying BlankImage Image");
                 display_images(&BlankImage);
                 DisplayMode = ModeNoStock;
             }

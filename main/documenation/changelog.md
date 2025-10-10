@@ -1,3 +1,10 @@
+## 101025
+-- ShowQr Function changes made for resolev errors
+
+## 091025
+-- showQrCode function added in main file for display QrCOde
+-- Cash Received Displayed from V command in MQTT.
+
 ## 190925
 -- hARd coding removed polarity = 0 removed 
 -- set PULSEOO as per polarity

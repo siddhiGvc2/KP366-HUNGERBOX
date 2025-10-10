@@ -473,7 +473,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 //                        else if (TID != LastTID)
                          if (memcmp(TID, LastTID, 100) != 0)
                         {
+                                DisplayCashReceived();
+
+                   
                             edges = pulses*2;  // doubled edges
+                            
                             // strcpy(WIFI_PASS_2, buf);
                             // utils_nvs_set_str(NVS_PASS_2_KEY, WIFI_PASS_2);
                             ESP_LOGI(TAG, "*V-OK,%s,%d,%d#",TID,pin,pulses);
@@ -483,10 +487,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                             sprintf(payload, "*T-OK,%s,%d,%d#",TID,pin,pulses); //actual when in production
                             ESP_LOGI(TAG, "*T-OK,%s,%d,%d#",TID,pin,pulses);
                             publish_message(payload, client);
+                             vTaskDelay(3000/portTICK_PERIOD_MS);
+                            DisplayItemVend();
+                            vTaskDelay(3000/portTICK_PERIOD_MS);
+                            dispayQR();
+                         
                             tx_event_pending = 1;
                             Totals[pin-1] += pulses;
                             strcpy(LastTID,TID);
                             utils_nvs_set_str(NVS_LAST_TID,LastTID);
+                               
                         }
                         else
                         {
@@ -595,7 +605,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                 {
                     uart_write_string_ln(data);
                     DisplayCashReceived();
-                    vTaskDelay(3000/portTICK_PERIOD_MS);
+                vTaskDelay(3000/portTICK_PERIOD_MS);
                     DisplayItemVend();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
                     dispayQR();

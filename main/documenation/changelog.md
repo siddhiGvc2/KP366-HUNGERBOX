@@ -1,5 +1,5 @@
 ## 111025
--- changes made fo slve bug in ShowQrCode
+-- changes made fo solve bug in ShowQrCode
 
 ## 101025
 -- ShowQr Function changes made for resolev errors

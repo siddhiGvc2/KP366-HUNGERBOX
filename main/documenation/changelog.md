@@ -1,5 +1,6 @@
 ## 111025
 -- changes made fo solve bug in ShowQrCode
+-- *VEND command remove from mqttRoutines
 
 ## 101025
 -- ShowQr Function changes made for resolev errors

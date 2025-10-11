@@ -601,16 +601,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                 //     publish_message("CASHRECEIVED-OK",client);
                 //     DisplayCashReceived();
                 // }
-                else if(strncmp(data,"*VEND,",6)==0)
-                {
-                    uart_write_string_ln(data);
-                    DisplayCashReceived();
-                vTaskDelay(3000/portTICK_PERIOD_MS);
-                    DisplayItemVend();
-                    vTaskDelay(3000/portTICK_PERIOD_MS);
-                    dispayQR();
+                // else if(strncmp(data,"*VEND,",6)==0)
+                // {
+                //     uart_write_string_ln(data);
+                //     DisplayCashReceived();
+                // vTaskDelay(3000/portTICK_PERIOD_MS);
+                //     DisplayItemVend();
+                //     vTaskDelay(3000/portTICK_PERIOD_MS);
+                //     dispayQR();
                     
-                }
+                // }
                 else if(strncmp(data, "*DATA:", 6) == 0){
                     sscanf(data, "*DATA:%[^#]#",currentDateTime);
                     sprintf(payload, "*DATA-OK,%s#",currentDateTime); 

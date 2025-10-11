@@ -206,6 +206,8 @@ extern lv_obj_t *label;
 extern lv_obj_t *qr;
 extern lv_obj_t *qr_label_bg;
 extern lv_obj_t *qr_label;
+extern lv_style_t qr_style;
+extern bool qr_style_initialized;
 extern char UartDebugInfoRequired;
 extern char UartPacketReceived;
 extern int VendingMode;

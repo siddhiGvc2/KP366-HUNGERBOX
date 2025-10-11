@@ -200,6 +200,8 @@ lv_obj_t *label = NULL;
 lv_obj_t *qr = NULL;
  lv_obj_t *qr_label_bg = NULL;
  lv_obj_t *qr_label = NULL;
+lv_style_t qr_style;
+bool qr_style_initialized = false;
 
 char UartDebugInfoRequired = 0;
 char UartPacketReceived = 0;

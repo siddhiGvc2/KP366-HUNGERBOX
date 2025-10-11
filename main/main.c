@@ -81,14 +81,14 @@ void show_qr_code(void *param) {
         img = NULL;             // ✅ Good: prevent use-after-free
         }
        
-        if (qr == NULL) {
+        if (!lv_obj_is_valid(qr)) {
 
         qr = lv_qrcode_create(lv_scr_act(), QR_CODE_SIZE, lv_color_hex3(0x000), lv_color_hex3(0xFFF));
         }
         lv_qrcode_update(qr, QrString, strlen(QrString));
         lv_obj_align(qr, LV_ALIGN_CENTER, 0, -23);
 
-        if(qr_label_bg==NULL)
+        if(!lv_obj_is_valid(qr_label_bg))
         {
         qr_label_bg = lv_obj_create(lv_scr_act());
         }
@@ -98,20 +98,23 @@ void show_qr_code(void *param) {
         lv_obj_set_style_bg_opa(qr_label_bg, LV_OPA_COVER, 0);
         lv_obj_clear_flag(qr_label_bg, LV_OBJ_FLAG_SCROLLABLE);
 
-        if(qr_label==NULL)
+        if(!lv_obj_is_valid(qr_label))
         {
         qr_label = lv_label_create(qr_label_bg);
         }
         lv_label_set_text_fmt(qr_label, "S.No : %s", SerialNumber);
         lv_obj_align_to(qr_label, qr, LV_ALIGN_OUT_TOP_MID, 0, -20);
 
-        static lv_style_t style;
-        lv_style_init(&style);
-        lv_style_set_text_color(&style, lv_color_white());
-        lv_style_set_bg_color(&style, lv_color_black());
-        lv_style_set_bg_opa(&style, LV_OPA_COVER);
-        lv_style_set_pad_all(&style, 4);
-        lv_obj_add_style(qr_label, &style, 0);
+        if(!qr_style_initialized)
+        {
+        lv_style_init(&qr_style);
+        lv_style_set_text_color(&qr_style, lv_color_white());
+        lv_style_set_bg_color(&qr_style, lv_color_black());
+        lv_style_set_bg_opa(&qr_style, LV_OPA_COVER);
+        lv_style_set_pad_all(&qr_style, 4);
+        qr_style_initialized=true;
+        }
+        lv_obj_add_style(qr_label, &qr_style, 0);
 
         DisplayMode = ModeQR;
     }

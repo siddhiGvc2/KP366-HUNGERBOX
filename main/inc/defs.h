@@ -190,7 +190,7 @@ typedef enum TCPIP_SOCKET_STATE{
 
 #define PASS_THRU   "Y"
 
-#define FWVersion "*KP_P366__CA_101025#"
+#define FWVersion "*KP_P366__CA_111025#"
 
 #define HBTDelay    20000
 #define LEDR    33

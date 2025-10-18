@@ -83,11 +83,14 @@ void display_images(const lv_img_dsc_t *ig) {
     sprintf(payload,"ItemCode-%s\nPrice-%s",itemCode,rawPrice);
     lv_label_set_text(label, payload);
   
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_text_font(&style, &lv_font_montserrat_22);  // Set font size 28
-    lv_style_set_text_color(&style, lv_color_black());
-    lv_obj_add_style(label, &style, 0);
+    if(!style1_initialized)
+    {
+    lv_style_init(&style1);
+    lv_style_set_text_font(&style1, &lv_font_montserrat_22);  // Set font size 28
+    lv_style_set_text_color(&style1, lv_color_black());
+    style1_initialized=true;
+    }
+    lv_obj_add_style(label, &style1, 0);
 
      lv_obj_align_to(label, img, LV_ALIGN_BOTTOM_MID, 0, -100);
     }
@@ -98,11 +101,14 @@ void display_images(const lv_img_dsc_t *ig) {
         sprintf(payload,"%s",TextStatus);
         lv_label_set_text(label, payload);
     
-        static lv_style_t style;
-        lv_style_init(&style);
-        lv_style_set_text_font(&style, &lv_font_montserrat_28);  // Set font size 28
-        lv_style_set_text_color(&style, lv_color_black());
-        lv_obj_add_style(label, &style, 0);
+        if(!style2_initialized)
+        {
+        lv_style_init(&style2);
+        lv_style_set_text_font(&style2, &lv_font_montserrat_28);  // Set font size 28
+        lv_style_set_text_color(&style2, lv_color_black());
+        style2_initialized=true;
+        }
+        lv_obj_add_style(label, &style2, 0);
 
         lv_obj_align_to(label, img, LV_ALIGN_CENTER, 0, 0);
     
@@ -115,11 +121,14 @@ void display_images(const lv_img_dsc_t *ig) {
     // sprintf(label,"")
     lv_label_set_text(label, "Mobivend 140525");
    
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_text_font(&style, &lv_font_montserrat_22);  // Set font size 28
-    lv_style_set_text_color(&style, lv_color_black());
-    lv_obj_add_style(label, &style, 0);
+    if(!style3_initialized)
+    {
+    lv_style_init(&style3);
+    lv_style_set_text_font(&style3, &lv_font_montserrat_22);  // Set font size 28
+    lv_style_set_text_color(&style3, lv_color_black());
+    style3_initialized=true;
+    }
+    lv_obj_add_style(label, &style3, 0);
 
      lv_obj_align_to(label, img, LV_ALIGN_BOTTOM_MID, 0, -10);
     }

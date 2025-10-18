@@ -197,6 +197,13 @@ char val1[20], val2[20], val4[20], rawPrice[20], itemCode[10];
 #include "lvgl.h"
 lv_obj_t * img = NULL; // Declare globally or in a higher scope
 lv_obj_t *label = NULL;
+lv_style_t style1;
+lv_style_t style2;
+lv_style_t style3;
+bool style1_initialized = false;
+bool style2_initialized = false;
+bool style3_initialized = false;
+
 lv_obj_t *qr = NULL;
  lv_obj_t *qr_label_bg = NULL;
  lv_obj_t *qr_label = NULL;

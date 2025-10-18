@@ -96,11 +96,11 @@ void event_handler(void* arg, esp_event_base_t event_base,
     char buffer[100];
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) 
     {
-         if (0) //gpio_get_level(JUMPER2) == 0
+         if (gpio_get_level(JUMPER2) == 0) 
          {
              set_led_state(WAIT4ESPTOUCH);
              // MESSAGE 1
-             strcpy(TextStatus,"Removed\nJumper");
+             strcpy(TextStatus,"Remove\nJumper");
              DisplayStatusText();
              ESP_LOGI(TAG,"*Waiting for jumper to be removed#");
              if (UartDebugInfoRequired)

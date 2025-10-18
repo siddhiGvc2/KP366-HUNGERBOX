@@ -259,10 +259,54 @@ void display_image_task(void)
               if (DisplayMode != ModeStatusText)
             {
                  LV_IMG_DECLARE(BlankImage);
-                  ESP_LOGI(TAG,"Displaying BlankImage Image");
+                ESP_LOGI(TAG,"Displaying BlankImage Image");
                 display_images(&BlankImage);
-                DisplayMode = ModeNoStock;
+                DisplayMode = ModeStatusText;
             }
+           else {
+                char payload[200] = {0};
+
+                if (example_lvgl_lock(-1)) {
+
+                    // Delete old label if it exists
+                    if (lv_obj_is_valid(label)) {
+                        lv_obj_del(label);
+                        label = NULL;
+                    }
+
+                    // Create new label
+                   if (label == NULL) {
+        label = lv_label_create(lv_scr_act());
+    }
+
+                    if (!label) {
+                        printf("Failed to create label!\n");
+                        example_lvgl_unlock();
+                        return;
+                    }
+
+                    // Set label text safely
+                    snprintf(payload, sizeof(payload), "%s", TextStatus);
+                    lv_label_set_text(label, payload);
+
+                    // Initialize style2 once
+                    if (!style2_initialized) {
+                        lv_style_init(&style2);
+                        lv_style_set_text_font(&style2, &lv_font_montserrat_28);
+                        lv_style_set_text_color(&style2, lv_color_black());
+                        style2_initialized = true;
+                    }
+
+                    // Apply style & align
+                    lv_obj_add_style(label, &style2, 0);
+                    lv_obj_align_to(label, img, LV_ALIGN_CENTER, 0, 0);
+
+                    example_lvgl_unlock();
+                }
+            }
+
+            
+            
         }
         if(Image2BDisplayed>0)
         {

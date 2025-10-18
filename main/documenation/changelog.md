@@ -1,3 +1,6 @@
+## 181025
+-- BlankImage error solved .ESP-TOUCH tested- woking
+
 ## 111025
 -- changes made fo solve bug in ShowQrCode
 -- *VEND command remove from mqttRoutines

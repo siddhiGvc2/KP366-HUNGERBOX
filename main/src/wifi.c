@@ -314,9 +314,9 @@ void smartconfig_example_task(void * parm)
         }
         if(uxBits & ESPTOUCH_DONE_BIT) {
             // MESSAGE 4
-             strcpy(TextStatus,"ESP TOUCH\nDONE");
-            DisplayStatusText();
-            ESP_LOGI(TAG, "*smartconfig over#");
+            //  strcpy(TextStatus,"ESP TOUCH\nDONE");
+            // DisplayStatusText();
+            // ESP_LOGI(TAG, "*smartconfig over#");
             if (UartDebugInfoRequired)
             {
               uart_write_string_ln("*smartconfig over#");
@@ -325,8 +325,8 @@ void smartconfig_example_task(void * parm)
             esp_smartconfig_stop();
            
            
-            ESP_LOGI(TAG,"Restarting Device");
-            RestartDevice();
+            // ESP_LOGI(TAG,"Restarting Device");
+            // RestartDevice();
               ESP_LOGI(TAG,"Deleteing Task");
               vTaskDelete(NULL);
         }

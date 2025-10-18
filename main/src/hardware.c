@@ -72,8 +72,8 @@ void RestartDevice (void)
      led_state = WAITING_FOR_RESTART;
      vTaskDelay(4000/portTICK_PERIOD_MS);
      ESP_LOGI(TAG,"Edges- %d, PulseStoppedDelay- %d",edges,PulseStoppedDelay);
-     while ((edges !=0) || (PulseStoppedDelay!=0))
-        vTaskDelay(1000/portTICK_PERIOD_MS);
+     if ((edges !=0) || (PulseStoppedDelay!=0))
+        vTaskDelay(3000/portTICK_PERIOD_MS);
      esp_restart();
 }
 

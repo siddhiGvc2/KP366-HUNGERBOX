@@ -61,7 +61,7 @@ void InitMqtt (void);
     char topic[200];
     char modified_message[500];
     
-    sprintf(topic,"GVC/KP/ALL");
+    sprintf(topic,"HB/ALL");
     
     // Check if message starts with * and ends with #
     if (message[0] == '*' && message[strlen(message)-1] == '#') {
@@ -141,7 +141,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         MQTT_CONNEECTED = 1;  // Ensure MQTT_CONNECTED is defined
         vTaskDelay(2000/portTICK_PERIOD_MS);
         uart_write_string_ln("*OKNET#");
-        sprintf(topic, "GVC/KP/%s", SerialNumber);
+        sprintf(topic, "HB/%s", SerialNumber);
         sprintf (payload,"Topic is %s",topic);
         if (UartDebugInfoRequired)
             uart_write_string_ln(payload);
@@ -185,7 +185,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             data[event->data_len] = '\0';
 
             char expected_topic[150];
-            sprintf(expected_topic, "GVC/KP/%s", SerialNumber);
+            sprintf(expected_topic, "HB/%s", SerialNumber);
 
             if (strcmp(topic, expected_topic) == 0) {
                 if (strcmp(data, "*HBT#") == 0) {
@@ -601,16 +601,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                 //     publish_message("CASHRECEIVED-OK",client);
                 //     DisplayCashReceived();
                 // }
-                // else if(strncmp(data,"*VEND,",6)==0)
-                // {
-                //     uart_write_string_ln(data);
-                //     DisplayCashReceived();
-                // vTaskDelay(3000/portTICK_PERIOD_MS);
-                //     DisplayItemVend();
-                //     vTaskDelay(3000/portTICK_PERIOD_MS);
-                //     dispayQR();
+                else if(strncmp(data,"*VEND,",6)==0)
+                {
+                    uart_write_string_ln(data);
+                    DisplayCashReceived();
+                vTaskDelay(3000/portTICK_PERIOD_MS);
+                    DisplayItemVend();
+                    vTaskDelay(3000/portTICK_PERIOD_MS);
+                    dispayQR();
                     
-                // }
+                }
                 else if(strncmp(data, "*DATA:", 6) == 0){
                     sscanf(data, "*DATA:%[^#]#",currentDateTime);
                     sprintf(payload, "*DATA-OK,%s#",currentDateTime); 

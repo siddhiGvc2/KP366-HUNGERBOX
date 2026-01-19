@@ -661,6 +661,10 @@ void process_uart_packet(const char *pkt){
     }
   
     else{
+        if(MQTTRequired)
+        {
+            mqtt_publish_msg(pkt);
+        }
         if (UartDebugInfoRequired)
              uart_write_string_ln(pkt);
      int l = strlen(pkt);

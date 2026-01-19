@@ -905,14 +905,17 @@ void tcpip_client_task(){
                                         
                                     }
                                 else{
+                                    if(UartDebugInfoRequired)
+                                    {
                                     if(extractSubstring(rx_buffer, buf) == true){
                                         uart_write_string("*");
                                         uart_write_string(buf);
                                         uart_write_string("#");
                                         tx_event_pending = 1;
-                                    }
+                                    }}
                                 }
 //                                Write On UART
+                          if(UartDebugInfoRequired)
                                 uart_write_string(rx_buffer);
                                 // gpio_set_level(LedTCP, 1);
                                 // vTaskDelay(200/portTICK_PERIOD_MS);

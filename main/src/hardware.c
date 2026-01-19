@@ -312,6 +312,8 @@ void gpio_read_n_act(void)
 
             }
         }
+
+        #if COINACCEPTOR
         if (gpio_get_level(CINHI) == 0)
         {
             INHInputValue = 0;        
@@ -342,14 +344,15 @@ void gpio_read_n_act(void)
                 {
                     DisplayNoStock();
                 }
-                else if(INHInputValue==1)
+                else                 
+                if(INHInputValue==1)
                 {
                     dispayQR();
                 }
-
-
         }
-        InputPin = 0;
+        #endif
+
+InputPin = 0;
         if (gpio_get_level(PULSEI) == 0)
         {
             InputPin = 1;        

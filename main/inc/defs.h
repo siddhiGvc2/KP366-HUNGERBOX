@@ -190,7 +190,20 @@ typedef enum TCPIP_SOCKET_STATE{
 
 #define PASS_THRU   "Y"
 
+#define HUNGERBOX 1
+#define COINACCEPTOR 0
+
+#if HUNGERBOX
 #define FWVersion "*HUNGERBOX_190126#"
+#define PublishTopic "HB/ALL"
+#define SubTopic "HB/"
+#endif
+
+#if COINACCEPTOR
+#define FWVersion "*HUNGERBOX_190126#"
+#define PublishTopic "GVC/KP/ALL"
+#define SubTopic "GVC/KP/"
+#endif
 
 #define HBTDelay    20000
 #define LEDR    33

@@ -1,4 +1,13 @@
 
+##190126
+-- version changed to HUNGERBOX
+-- MQTT topic changed to HB/
+-- uart unknown message sent to mqtt 
+-- mqtt unknown message sent to uart
+-- tcp unknown message not sent to uart
+-- coinacceptor disabled
+
+
 ## 181025
 -- BlankImage error solved .ESP-TOUCH tested- woking
 -- in RestartDevice if edges and pulse stop delay is not zero, wait for 3 seconds and then reset

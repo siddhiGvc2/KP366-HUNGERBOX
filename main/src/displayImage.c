@@ -260,13 +260,17 @@ void DisplayCoinInserted(void)
     if (DisplayMode != ModeQR)
     {
         // if INHvalue == 0 then dispaly No stock in place of QR Code
+#if COINACCEPTOR
         if(INHInputValue==0)
         {
             DisplayNoStock();
         }
-        else{
+        else
+#endif
+        {
         Image2BDisplayed = ImageQRCode;
         }
+
     }
 //         if (lv_obj_is_valid(img))
 //         {

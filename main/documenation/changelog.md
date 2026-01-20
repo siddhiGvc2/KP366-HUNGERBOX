@@ -1,6 +1,7 @@
 ## 2000126
 -- hbt time 15 sec to 5 min
 -- VEND commands display image disabled for hungerbox in mqttroutines
+-- mqtt replaced with mqtts
 
 
 ##190126

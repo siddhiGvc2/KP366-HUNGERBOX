@@ -2,6 +2,7 @@
 -- hbt time 15 sec to 5 min
 -- VEND commands display image disabled for hungerbox in mqttroutines
 -- mqtt replaced with mqtts
+-- *MP: *MIP? command added in tcp , uart & mqtt
 
 
 ##190126

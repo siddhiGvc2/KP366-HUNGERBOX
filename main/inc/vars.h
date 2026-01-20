@@ -44,6 +44,9 @@ char userName[100];
 char SIPdateTime[100];
 char SIPuserName[100];
 
+char MIPdateTime[100];
+char MIPuserName[100];
+
 char CAdateTime[100];
 char CAuserName[100];
 
@@ -139,6 +142,11 @@ int ledpin = 0;
 int ledstatus = 0;
 int blinkLEDNumber = 0;
 int SipNumber=0;
+int MipNumber=0;
+
+char mqtt_uri[100];
+char mqtt_user[100];
+char mqtt_pass[100];
 
 Led_State_t led_state = STANDBY_LED;
 TCPIP_Socket_State socket_state;

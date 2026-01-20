@@ -11,7 +11,7 @@
 // 75 seconds for one loop
 #define MAXWIFILOOPCOUNT 25 // As proposed by NB 10  // how many minutes? 30 minutes
 #define MAXSIPNUMBER 3
-
+#define MAXMIPNUMBER 3
 
 #define ModeNone   0
 #define ModeQR   1
@@ -108,6 +108,9 @@ typedef enum TCPIP_SOCKET_STATE{
 #define NVS_SIP_USERNAME     "USERNAME_SIP"
 #define NVS_SIP_DATETIME   "DATETIME_SIP"
 
+#define NVS_MIP_USERNAME     "USERNAME_MIP"
+#define NVS_MIP_DATETIME   "DATETIME_MIP"
+
 #define NVS_CA_USERNAME     "USERNAME_CA"
 #define NVS_CA_DATETIME   "DATETIME_CA"
 
@@ -168,6 +171,19 @@ typedef enum TCPIP_SOCKET_STATE{
 #define NVS_PASS_THRU   "Y"
 
 #define NVS_SIP_NUMBER   "SIP_NUMBER"
+#define NVS_MIP_NUMBER   "MIP_NUMBER"
+
+#define MQTT_BROKER1  "mqtt://159.89.248.57:1883"
+#define MQTT_BROKER2  "mqtt://157.245.29.144:1883"
+#define MQTT_BROKER3  "mqtts://gvcsystems.com:8883"
+
+#define MQTT_USER1  "kpmqtt"
+#define MQTT_USER2  "kpmqtt"
+#define MQTT_USER3  "gvcsystems"
+
+#define MQTT_PASS1  "KP*tcpeash?101PW"
+#define MQTT_PASS2  "KP*sandbox@101PW"
+#define MQTT_PASS3  "vkbd@070361M"
 
 #define NVS_QR_STRING "QR_STRING"
 

@@ -700,7 +700,50 @@ void tcpip_client_task(){
                                         const char* errorMsg = "Error: Invalid format";
                                         send(sock, errorMsg, strlen(errorMsg), 0);  
                                     }
-                                }else if (strncmp(rx_buffer, "*ERASE:", 7) == 0){
+                                } else if(strncmp(rx_buffer, "*MIP:", 5) == 0){
+
+       
+            char tempUserName[64], tempDateTime[64], tempBuf[64] ,tempBuf2[64];
+
+            if (sscanf(rx_buffer, "*MIP:%[^:]:%[^:]:%[^:]#", tempUserName, tempDateTime, tempBuf) == 3) { 
+                  if (strlen(tempUserName) == 0 || strlen(tempDateTime) == 0 || strlen(tempBuf) == 0  ) {
+                    // Send error message if any required parameters are missing or invalid
+                    const char* errorMsg = "*Error: Missing or invalid parameters#";
+                      send(sock, errorMsg, strlen(errorMsg), 0);
+                }
+                else{
+
+                        strcpy(MIPuserName, tempUserName);
+                        strcpy(MIPdateTime, tempDateTime);
+                        MipNumber=atoi(tempBuf);
+                }
+           
+            }
+            else {
+                // Send error message if parsing failed
+                const char* errorMsg = "*Error: Invalid format#";
+                  send(sock, errorMsg, strlen(errorMsg), 0);
+            }
+       
+      
+
+        if ((MipNumber == 0) || (MipNumber >MAXMIPNUMBER))  
+        {  
+            sprintf(payload, "*MIP-Error#");
+            ESP_LOGI(TAG,"*MIP-ERROR#");
+        }else 
+        {
+            sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);                                                   
+            utils_nvs_set_int(NVS_MIP_NUMBER,  MipNumber);
+            utils_nvs_set_str(NVS_MIP_USERNAME, MIPuserName);
+            utils_nvs_set_str(NVS_MIP_DATETIME, MIPdateTime);
+            ESP_LOGI(TAG,"*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
+        }    
+          send(sock, payload, strlen(payload), 0);
+        uart_write_string_ln(payload);
+        tx_event_pending = 1;
+
+    }else if (strncmp(rx_buffer, "*ERASE:", 7) == 0){
                                       char tempUserName[64], tempDateTime[64], tempBuf[64];
                                        // if seria no of device != ErasedSerialNumber then do not erase
                                             // if all values are not avalible then do not erase
@@ -829,6 +872,11 @@ void tcpip_client_task(){
                                         ESP_LOGI(TAG, "*SIP,%s,%s,%s,%d#",SIPuserName,SIPdateTime,server_ip_addr,
                                         sp_port );
                                         
+                                }
+                                 else if(strncmp(rx_buffer, "*MIP?#", 6) == 0){
+                                    sprintf(payload,"*MIP,%s,%s,%s,%d#",MIPuserName,MIPdateTime,mqtt_uri,MipNumber);
+                                     send(sock, payload, strlen(payload), 0);
+                                    tx_event_pending = 1;
                                 }
                                 else if(strncmp(rx_buffer, "*CC:", 4) == 0){
                                     sscanf(rx_buffer, "*CC:%[^:]:%[^:]:%[^#]#",CCuserName,CCdateTime,UniqueTimeStamp); // changed on 20-12-24 as per EC10

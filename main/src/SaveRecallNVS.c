@@ -154,6 +154,39 @@ void load_settings_nvs(){
         strcpy(server_ip_addr, TCP_URL3);
         server_port = TCP_PORT3;
     }
+
+    ESP_LOGI(TAG,"*MIP Number %d#",MipNumber);
+    if ((MipNumber == 0) || (MipNumber > MAXMIPNUMBER))
+        MipNumber = 1;
+
+    if (MipNumber == 1)
+    {
+        
+        // added on 090525
+        strcpy(mqtt_uri, MQTT_BROKER1);
+        strcpy(mqtt_user,MQTT_USER1);
+        strcpy(mqtt_pass,MQTT_PASS1);
+
+    }
+    if (MipNumber == 2)
+    {
+      
+        // added on 090525
+        strcpy(mqtt_uri, MQTT_BROKER2);
+        strcpy(mqtt_user,MQTT_USER2);
+        strcpy(mqtt_pass,MQTT_PASS2);
+
+    }
+    if (MipNumber == 3)
+    {
+       
+        // added on 090525
+        strcpy(mqtt_uri, MQTT_BROKER3);
+         strcpy(mqtt_user,MQTT_USER3);
+        strcpy(mqtt_pass,MQTT_PASS3);
+       
+    }
+    
     ESP_LOGI(TAG, "*Server IP Address : %s#", server_ip_addr);
     sprintf(payload,"*Server IP Address : %s#", server_ip_addr);
     if(UartDebugInfoRequired)

@@ -445,10 +445,52 @@ void process_uart_packet(const char *pkt){
         // utils_nvs_set_str(NVS_SIP_DATETIME, SIPdateTime);
         // uart_write_string_ln("*SIP-OK#");
         tx_event_pending = 1;
+    }else if(strncmp(pkt, "*MIP:", 5) == 0){
+        sscanf(pkt, "*MIP:%d#",&MipNumber);
+        strcpy(MIPuserName,"LOCAL");
+        strcpy(MIPdateTime,"00/00/00");
+
+          if ( (MipNumber == 0) || (MipNumber > MAXMIPNUMBER) )  
+            {  
+                //sprintf(payload, "*SIP-Error#");
+                ESP_LOGI(TAG,"*MIP-ERROR#");
+                if (UartDebugInfoRequired)
+                   uart_write_string_ln("*MIP-ERROR#");
+
+            }else 
+            {
+                sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);                                                   
+                uart_write_string_ln(payload);
+                utils_nvs_set_int(NVS_MIP_NUMBER, MipNumber);
+                utils_nvs_set_str(NVS_MIP_USERNAME, MIPuserName);
+                utils_nvs_set_str(NVS_MIP_DATETIME, MIPdateTime);
+                ESP_LOGI(TAG,"*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
+            } 
+
+        // sprintf(buf, "%s", server_ip_addr);
+        
+        // utils_nvs_set_str(NVS_SERVER_IP_KEY, buf);
+        // utils_nvs_set_int(NVS_SERVER_PORT_KEY, sp_port);
+
+        // utils_nvs_set_str(NVS_SIP_USERNAME, SIPuserName);
+        // utils_nvs_set_str(NVS_SIP_DATETIME, SIPdateTime);
+        // uart_write_string_ln("*SIP-OK#");
+        tx_event_pending = 1;
     } else if(strncmp(pkt, "*SIP?#", 6) == 0){
         
        sprintf(buffer,"*SIP,%s,%s,%s,%d#",SIPuserName,SIPdateTime,server_ip_addr,
                                         sp_port );
+
+   
+        if (UartDebugInfoRequired)
+           uart_write_string_ln(buffer);
+        tx_event_pending = 1;
+    
+    }
+    else if(strncmp(pkt, "*MIP?#", 6) == 0){
+        
+       sprintf(buffer,"*MIP,%s,%s,%s,%d#",MIPuserName,MIPdateTime,mqtt_uri,
+                                        MipNumber);
 
    
         if (UartDebugInfoRequired)

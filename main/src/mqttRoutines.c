@@ -230,12 +230,46 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                     // send(sock, payload, strlen(payload), 0);
                     tx_event_pending = 1;
                 }
+                 else if(strncmp(data, "*MIP:", 5) == 0){
+                                  
+                    sscanf(data, "*MIP:%d#",&MipNumber);
+                    strcpy(MIPuserName,"MQTT_LOCAL");
+                    strcpy(MIPdateTime,"00/00/00");
+                    char buf[100];
+                    sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
+                    sprintf(buf, "%s",mqtt_uri);
+
+                     if ((atoi(MipNumber) == 0) || (atoi(MipNumber) >MAXMIPNUMBER))  
+                        {  
+                            sprintf(payload, "*MIP-Error#");
+                            ESP_LOGI(TAG,"*MIP-ERROR#");
+                        }else 
+                        {
+                            sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);                                                   
+                            utils_nvs_set_int(NVS_MIP_NUMBER, atoi(MipNumber));
+                            utils_nvs_set_str(NVS_MIP_USERNAME, MIPuserName);
+                            utils_nvs_set_str(NVS_MIP_DATETIME, MIPdateTime);
+                            ESP_LOGI(TAG,"*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
+                        } 
+                
+                    
+                     mqtt_publish_msg(payload);
+                    // send(sock, payload, strlen(payload), 0);
+                    tx_event_pending = 1;
+                }
                 else if(strncmp(data, "*SIP?#", 6) == 0){
                     sprintf(payload, "*SIP,%s,%s,%s,%d#",SIPuserName,SIPdateTime,server_ip_addr,
                     sp_port ); //actual when in production
                      publish_message(payload, client);
                     ESP_LOGI(TAG, "*SIP,%s,%s,%s,%d#",SIPuserName,SIPdateTime,server_ip_addr,
                     sp_port );
+                }
+                else if(strncmp(data, "*MIP?#", 6) == 0){
+                    sprintf(payload, "*MIP,%s,%s,%s,%d#",MIPuserName,MIPdateTime,mqtt_uri,
+                    MipNumber ); //actual when in production
+                     publish_message(payload, client);
+                    ESP_LOGI(TAG, "*MIP,%s,%s,%s,%d#",MIPuserName,MIPdateTime,mqtt_uri,
+                    MipNumber );
                 }
                  else if(strncmp(data, "*D:",3) == 0){
                     sscanf(data, "*D:%[^:#]#",UniqueTimeStamp);
@@ -658,11 +692,11 @@ void mqtt_app_start(void)
 {
     ESP_LOGI(TAG, "STARTING MQTT");
      esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = "mqtts://gvcsystems.com:8883",
+        .broker.address.uri = mqtt_uri,
 
         .credentials = {
-            .username = "gvcsystems",
-            .authentication.password = "vkbd@070361M",
+            .username = mqtt_user,
+            .authentication.password = mqtt_pass,
         },
 
         .broker.verification.certificate = (const char *)ca_cert_pem_start,

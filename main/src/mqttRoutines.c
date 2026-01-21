@@ -644,13 +644,15 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                 else if(strncmp(data,"*VEND,",6)==0)
                 {
                     uart_write_string_ln(data);
-                    #if COINACCEPTOR
                     DisplayCashReceived();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
+                    #if COINACCEPTOR
+                  
                     DisplayItemVend();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
-                    dispayQR();
+                   
                     #endif
+                     dispayQR();
                     
                 }
                 else if(strncmp(data, "*DATA:", 6) == 0){

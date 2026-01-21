@@ -74,6 +74,7 @@ void show_qr_code(void *param) {
        
 
         // LV_IMG_DECLARE(QRcode);
+         lv_label_set_text(label, "");
         ESP_LOGI(TAG, "Displaying QrCode Image");
         // display_images(&QRcode);
         if (lv_obj_is_valid(img)) {

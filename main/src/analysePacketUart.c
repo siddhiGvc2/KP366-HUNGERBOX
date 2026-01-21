@@ -615,10 +615,11 @@ void process_uart_packet(const char *pkt){
       
     
         // Parse 7 fields
-        int matched = sscanf(pkt, "*TRXN,%[^,],%[^,],%[^,],%[^,],%[^,],%[^,#]#", 
-                             val1, val2, refId, val4, rawPrice, itemCode);
+        int matched = sscanf(pkt, "*TRXN,%[^,],%[^,],%[^,],%[^,],%[^,#]#", 
+                              refId, seqId, payment_source, rawPrice, itemCode);
+                            
     
-        if (matched == 6) {
+        if (matched == 5) {
             // Convert price from paise to rupees
             int priceInt = atoi(rawPrice);
             int p=priceInt/100;
@@ -655,9 +656,10 @@ void process_uart_packet(const char *pkt){
             start_http_get_task(formatted_url);
             }
 
-            vTaskDelay(10000/portTICK_PERIOD_MS);
+            vTaskDelay(5000/portTICK_PERIOD_MS);
             DisplayMode=ModeNone;
             dispayQR();
+           
     
         } else {
             ESP_LOGW("UART", "Invalid TRXN format: expected 7 values.");

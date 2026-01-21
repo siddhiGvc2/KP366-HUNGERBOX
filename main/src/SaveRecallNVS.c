@@ -157,7 +157,7 @@ void load_settings_nvs(){
 
     ESP_LOGI(TAG,"*MIP Number %d#",MipNumber);
     if ((MipNumber == 0) || (MipNumber > MAXMIPNUMBER))
-        MipNumber = 1;
+        MipNumber = 3;
 
     if (MipNumber == 1)
     {

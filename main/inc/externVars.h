@@ -231,3 +231,7 @@ extern char UartPacketReceived;
 extern int VendingMode;
 
 extern char TextStatus[100];
+extern char Mode[100];
+
+extern const char *PublishTopic;
+extern const char *SubTopic;

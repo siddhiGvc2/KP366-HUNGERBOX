@@ -1,6 +1,8 @@
 ##210126
 -- DisplayCashRecived called on VEND command in mqttroutine
 -- TRXN command format changed
+-- *Mode: Mde? commands added in mqtt
+-- Replace COINACCEPTOR IF DEF with mode
 
 ## 2000126
 -- hbt time 15 sec to 5 min

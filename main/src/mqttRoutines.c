@@ -646,13 +646,13 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                     uart_write_string_ln(data);
                     DisplayCashReceived();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
-                    #if COINACCEPTOR
-                  
+                    if(strstr(Mode,"CA")==NULL)
+                    {
                     DisplayItemVend();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
                    
-                    #endif
-                     dispayQR();
+                    }
+                    dispayQR();
                     
                 }
                 else if(strncmp(data, "*DATA:", 6) == 0){
@@ -667,6 +667,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                 else if(strncmp(data,"*SUCCESS#",9)==0)
                 {
                     uart_write_string_ln(data);
+                }
+                else if(strncmp(data,"*Mode:",6)==0)
+                {
+                    sscanf(data,"*Mode:%[^#]#",Mode);
+                    mqtt_publish_msg("*Mode-Ok#");
+                }
+                else if(strncmp(data,"*Mode?#",7)==0)
+                {
+                    sprintf(payload,"*Mode:%s#",Mode);
+                    mqtt_publish_msg(payload);
                 }
                 else {
                     uart_write_string(data);

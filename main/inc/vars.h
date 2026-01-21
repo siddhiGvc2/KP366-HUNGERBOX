@@ -225,3 +225,11 @@ char UartPacketReceived = 0;
 int VendingMode;
 
 char TextStatus[100];
+
+char Mode[100];
+
+
+const char *PublishTopic;
+const char *SubTopic;
+
+

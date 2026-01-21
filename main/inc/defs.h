@@ -186,10 +186,13 @@ typedef enum TCPIP_SOCKET_STATE{
 #define MQTT_PASS3  "vkbd@070361M"
 
 #define NVS_QR_STRING "QR_STRING"
+#define NVS_MODE "MODE"
 
+#define DEFAULT_MODE "MDB"
 
 //# define HBTTIMEBEFORERESTART 21000
 # define HBTTIMEBEFORERESTART 3600
+
 
 // #define DEFAULT_SERVER_IP_ADDR_TRY "gvc.co.in"
 // #define DEFAULT_SERVER_IP_ADDR "159.89.248.57"
@@ -206,20 +209,15 @@ typedef enum TCPIP_SOCKET_STATE{
 
 #define PASS_THRU   "Y"
 
-#define HUNGERBOX 1
-#define COINACCEPTOR 0
 
-#if HUNGERBOX
 #define FWVersion "*HUNGERBOX_190126#"
-#define PublishTopic "HB/ALL"
-#define SubTopic "HB/"
-#endif
+#define PUB_MDB "HB/ALL"
+#define SUB_MDB "HB/"
 
-#if COINACCEPTOR
-#define FWVersion "*HUNGERBOX_190126#"
-#define PublishTopic "GVC/KP/ALL"
-#define SubTopic "GVC/KP/"
-#endif
+
+#define PUB_CA "GVC/KP/ALL"
+#define SUB_CA "GVC/KP/"
+
 
 #define HBTDelay    20000
 #define LEDR    33

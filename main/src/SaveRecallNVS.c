@@ -104,6 +104,23 @@ void load_settings_nvs(){
     char payload[150];
     ESP_LOGI(TAG, "*NVS Reading Started#");
 
+     if(utils_nvs_get_str(NVS_MODE,Mode,500) == ESP_OK){
+        utils_nvs_get_str(NVS_MODE,Mode,500);
+       }
+       else{
+         strcpy(Mode,DEFAULT_MODE);
+       }
+
+if (strstr(Mode, "MDB")) {
+    PublishTopic = PUB_MDB;
+    SubTopic     = SUB_MDB;
+} else {
+    PublishTopic = PUB_CA;
+    SubTopic     = SUB_CA;
+}
+
+
+
     if(utils_nvs_get_str(NVS_QR_STRING,QrString,500) == ESP_OK){
         utils_nvs_get_str(NVS_QR_STRING,QrString,500);
        }

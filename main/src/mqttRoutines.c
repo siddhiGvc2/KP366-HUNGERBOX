@@ -118,8 +118,15 @@ void Publisher_Task(void *params)
 }
 
 /* Embedded CA certificate */
-extern const uint8_t ca_cert_pem_start[] asm("_binary_ca_cert_pem_start");
-extern const uint8_t ca_cert_pem_end[]   asm("_binary_ca_cert_pem_end");
+extern const uint8_t ca_gvc_pem_start[] asm("_binary_ca_cert_pem_start");
+extern const uint8_t ca_gvc_pem_end[]   asm("_binary_ca_cert_pem_end");
+
+extern const uint8_t ca_test_pem_start[] asm("_binary_ca_test_pem_start");
+extern const uint8_t ca_test_pem_end[]   asm("_binary_ca_test_pem_end");
+
+const char *ca_cert;
+
+
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
@@ -703,6 +710,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 void mqtt_app_start(void)
 {
     ESP_LOGI(TAG, "STARTING MQTT");
+    if(MipNumber==3) {
+    ca_cert = (const char *)ca_gvc_pem_start;
+} else {
+    ca_cert = (const char *)ca_test_pem_start;
+}
      esp_mqtt_client_config_t mqtt_cfg = {
         .broker.address.uri = mqtt_uri,
 
@@ -711,7 +723,7 @@ void mqtt_app_start(void)
             .authentication.password = mqtt_pass,
         },
 
-        .broker.verification.certificate = (const char *)ca_cert_pem_start,
+        .broker.verification.certificate = (const char *)ca_cert,
     };
 
     client = esp_mqtt_client_init(&mqtt_cfg);

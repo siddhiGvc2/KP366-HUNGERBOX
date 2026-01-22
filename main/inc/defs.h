@@ -173,15 +173,15 @@ typedef enum TCPIP_SOCKET_STATE{
 #define NVS_SIP_NUMBER   "SIP_NUMBER"
 #define NVS_MIP_NUMBER   "MIP_NUMBER"
 
-#define MQTT_BROKER1  "mqtt://159.89.248.57:1883"
-#define MQTT_BROKER2  "mqtt://157.245.29.144:1883"
+#define MQTT_BROKER1  "mqtts://mqtt.provend.in"
+#define MQTT_BROKER2  "mqtts://157.245.29.144:1883"
 #define MQTT_BROKER3  "mqtts://gvcsystems.com:8883"
 
-#define MQTT_USER1  "kpmqtt"
+#define MQTT_USER1  "provend_device"
 #define MQTT_USER2  "kpmqtt"
 #define MQTT_USER3  "gvcsystems"
 
-#define MQTT_PASS1  "KP*tcpeash?101PW"
+#define MQTT_PASS1  "prodmqttdevice"
 #define MQTT_PASS2  "KP*sandbox@101PW"
 #define MQTT_PASS3  "vkbd@070361M"
 

@@ -1,4 +1,8 @@
-##210126
+## 220126
+-- Provend mqtts credintials added at MipNumber 1
+-- Mip command bug solved
+
+## 210126
 -- DisplayCashRecived called on VEND command in mqttroutine
 -- TRXN command format changed
 -- *Mode: Mde? commands added in mqtt

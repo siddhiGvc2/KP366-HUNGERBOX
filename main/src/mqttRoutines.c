@@ -117,14 +117,7 @@ void Publisher_Task(void *params)
   }
 }
 
-/* Embedded CA certificate */
-extern const uint8_t ca_gvc_pem_start[] asm("_binary_ca_cert_pem_start");
-extern const uint8_t ca_gvc_pem_end[]   asm("_binary_ca_cert_pem_end");
 
-extern const uint8_t ca_test_pem_start[] asm("_binary_ca_test_pem_start");
-extern const uint8_t ca_test_pem_end[]   asm("_binary_ca_test_pem_end");
-
-const char *ca_cert;
 
 
 
@@ -215,18 +208,18 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                     sscanf(data, "*SIP:%d#",&SipNumber);
                     strcpy(SIPuserName,"MQTT_LOCAL");
                     strcpy(SIPdateTime,"00/00/00");
-                    char buf[100];
+                  
                     sprintf(payload, "*SIP-OK,%s,%s#",SIPuserName,SIPdateTime);
-                    sprintf(buf, "%s",server_ip_addr);
+                  
 
-                     if ((atoi(SipNumber) == 0) || (atoi(SipNumber) >MAXSIPNUMBER))  
+                     if (SipNumber == 0 || SipNumber >MAXSIPNUMBER)  
                         {  
                             sprintf(payload, "*SIP-Error#");
                             ESP_LOGI(TAG,"*SIP-ERROR#");
                         }else 
                         {
                             sprintf(payload, "*SIP-OK,%s,%s#",SIPuserName,SIPdateTime);                                                   
-                            utils_nvs_set_int(NVS_SIP_NUMBER, atoi(SipNumber));
+                            utils_nvs_set_int(NVS_SIP_NUMBER, SipNumber);
                             utils_nvs_set_str(NVS_SIP_USERNAME, SIPuserName);
                             utils_nvs_set_str(NVS_SIP_DATETIME, SIPdateTime);
                             ESP_LOGI(TAG,"*SIP-OK,%s,%s#",SIPuserName,SIPdateTime);
@@ -242,18 +235,18 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                     sscanf(data, "*MIP:%d#",&MipNumber);
                     strcpy(MIPuserName,"MQTT_LOCAL");
                     strcpy(MIPdateTime,"00/00/00");
-                    char buf[100];
+                  
                     sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
-                    sprintf(buf, "%s",mqtt_uri);
+                  
 
-                     if ((atoi(MipNumber) == 0) || (atoi(MipNumber) >MAXMIPNUMBER))  
+                     if (MipNumber == 0 || MipNumber >MAXMIPNUMBER)  
                         {  
                             sprintf(payload, "*MIP-Error#");
                             ESP_LOGI(TAG,"*MIP-ERROR#");
                         }else 
                         {
                             sprintf(payload, "*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);                                                   
-                            utils_nvs_set_int(NVS_MIP_NUMBER, atoi(MipNumber));
+                            utils_nvs_set_int(NVS_MIP_NUMBER, MipNumber);
                             utils_nvs_set_str(NVS_MIP_USERNAME, MIPuserName);
                             utils_nvs_set_str(NVS_MIP_DATETIME, MIPdateTime);
                             ESP_LOGI(TAG,"*MIP-OK,%s,%s#",MIPuserName,MIPdateTime);
@@ -705,16 +698,23 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
     }
 }
+/* Embedded CA certificate */
+extern const uint8_t ca_gvc_pem_start[] asm("_binary_ca_gvc_pem_start");
+extern const uint8_t ca_gvc_pem_end[]   asm("_binary_ca_gvc_pem_end");
 
+extern const uint8_t ca_provend_pem_start[] asm("_binary_ca_provend_pem_start");
+extern const uint8_t ca_provend_pem_end[]   asm("_binary_ca_provend_pem_end");
+
+const char *ca_cert;
 
 void mqtt_app_start(void)
 {
     ESP_LOGI(TAG, "STARTING MQTT");
     if(MipNumber==3) {
     ca_cert = (const char *)ca_gvc_pem_start;
-} else {
-    ca_cert = (const char *)ca_test_pem_start;
-}
+    } else if(MipNumber==1){
+        ca_cert = (const char *)ca_provend_pem_start;
+    }
      esp_mqtt_client_config_t mqtt_cfg = {
         .broker.address.uri = mqtt_uri,
 

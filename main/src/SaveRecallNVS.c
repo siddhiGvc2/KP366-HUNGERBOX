@@ -172,9 +172,16 @@ if (strstr(Mode, "MDB")) {
         server_port = TCP_PORT3;
     }
 
+     if(utils_nvs_get_int(NVS_MIP_NUMBER,&MipNumber) == ESP_OK){
+       utils_nvs_get_int(NVS_MIP_NUMBER,&MipNumber);
+    }
+    else {
+        MipNumber = 1;
+    }
+
     ESP_LOGI(TAG,"*MIP Number %d#",MipNumber);
     if ((MipNumber == 0) || (MipNumber > MAXMIPNUMBER))
-        MipNumber = 3;
+        MipNumber = 1;
 
     if (MipNumber == 1)
     {

@@ -261,7 +261,7 @@ void DisplayCoinInserted(void)
     {
         // if INHvalue == 0 then dispaly No stock in place of QR Code
           Image2BDisplayed = ImageQRCode;
- if(strstr(Mode,"CA")==NULL)
+ if(strstr(Mode,"CA")!=NULL)
  {
         if(INHInputValue==0)
         {

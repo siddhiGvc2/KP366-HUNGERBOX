@@ -111,7 +111,7 @@ void load_settings_nvs(){
          strcpy(Mode,DEFAULT_MODE);
        }
 
-if (strstr(Mode, "MDB")) {
+if (strstr(Mode, "MDB")!=NULL) {
     PublishTopic = PUB_MDB;
     SubTopic     = SUB_MDB;
 } else {

@@ -646,7 +646,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
                     uart_write_string_ln(data);
                     DisplayCashReceived();
                     vTaskDelay(3000/portTICK_PERIOD_MS);
-                    if(strstr(Mode,"CA")==NULL)
+                    if(strstr(Mode,"CA")!=NULL)
                     {
                     DisplayItemVend();
                     vTaskDelay(3000/portTICK_PERIOD_MS);

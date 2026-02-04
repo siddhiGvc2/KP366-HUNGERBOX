@@ -705,6 +705,9 @@ extern const uint8_t ca_gvc_pem_end[]   asm("_binary_ca_gvc_pem_end");
 extern const uint8_t ca_provend_pem_start[] asm("_binary_ca_provend_pem_start");
 extern const uint8_t ca_provend_pem_end[]   asm("_binary_ca_provend_pem_end");
 
+extern const uint8_t ca_megavend_pem_start[] asm("_binary_ca_megavend_pem_start");
+extern const uint8_t ca_megavend_pem_end[]   asm("_binary_ca_megavend_pem_end");
+
 const char *ca_cert;
 
 void mqtt_app_start(void)
@@ -713,7 +716,11 @@ void mqtt_app_start(void)
     if(MipNumber==3) {
     ca_cert = (const char *)ca_gvc_pem_start;
     } else if(MipNumber==1){
-        ca_cert = (const char *)ca_provend_pem_start;
+        ca_cert = (const char *)ca_megavend_pem_start;
+    }
+    else if(MipNumber==2)
+    {
+        ca_cert=(const char *)ca_provend_pem_start;
     }
      esp_mqtt_client_config_t mqtt_cfg = {
         .broker.address.uri = mqtt_uri,

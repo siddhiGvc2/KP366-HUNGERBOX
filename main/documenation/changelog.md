@@ -1,3 +1,6 @@
+## 040226
+-- megavend mqtts credintials added
+
 ## 220126
 -- Provend mqtts credintials added at MipNumber 1
 -- Mip command bug solved

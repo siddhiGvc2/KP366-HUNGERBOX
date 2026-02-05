@@ -93,11 +93,11 @@ typedef enum TCPIP_SOCKET_STATE{
 #define NVS_CASH6_KEY   "CASH6"
 #define NVS_CASH7_KEY   "CASH7"
 
-#define DEFAULT_SSID1  "GVCSYS1"
-#define DEFAULT_PASS1  "GVC3065V"
-#define DEFAULT_SSID2  "GVCSYS2"
+#define DEFAULT_SSID1  "BB-Bansal"
+#define DEFAULT_PASS1  "Netvend@3459"
+#define DEFAULT_SSID2  "GVCSYS1"
 #define DEFAULT_PASS2  "GVC3065V"
-#define DEFAULT_SSID3  "GVCSYS3"
+#define DEFAULT_SSID3  "GVCSYS2"
 #define DEFAULT_PASS3  "GVC3065V"
 #define DEFAULT_TIMESTAMP "1733663095"
 
@@ -200,9 +200,9 @@ typedef enum TCPIP_SOCKET_STATE{
 //#define DEFAULT_FOTA_URL  "http://gvc.co.in/esp/esp_wifi_tcp_fota.bin"
 #define DEFAULT_FOTA_URL  "http://test-firmware.kwikpay.uk/firmware/fw310325_10.bin"
 //#define TCP_URL1  "gvc.co.in"
-#define TCP_URL1  "GVCTCP.KWIKPAY.COM"
-#define TCP_URL2  "TESTTCP.KWIKPAY.COM"
-#define TCP_URL3  "GVCTCP.KWIKPAY.COM"
+#define TCP_URL1  "gvcsystems.com"
+#define TCP_URL2  "gvcsystems.com"
+#define TCP_URL3  "gvcsystems.com"
 #define TCP_PORT1   6666
 #define TCP_PORT2   6666
 #define TCP_PORT3   6666
@@ -210,7 +210,7 @@ typedef enum TCPIP_SOCKET_STATE{
 #define PASS_THRU   "Y"
 
 
-#define FWVersion "*HUNGERBOX_190126#"
+#define FWVersion "*HUNGERBOX_040226#"
 #define PUB_MDB "HB/ALL"
 #define SUB_MDB "HB/"
 

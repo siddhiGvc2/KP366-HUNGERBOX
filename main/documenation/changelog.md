@@ -1,5 +1,9 @@
+## 050226
+-- TCP url changed to gvcsystems.com
 ## 040226
 -- megavend mqtts credintials added
+-- version 040226
+-- wifi changes - WIFI1 changed to BB bansal
 
 ## 220126
 -- Provend mqtts credintials added at MipNumber 1
